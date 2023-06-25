@@ -7,13 +7,15 @@ enum EdgeType {
 }
 
 struct Node {
-    name: i32,
+    id: i32,
+    hr_name: char,
+
     voltage: f32,
 }
 
 struct Edge {
-    node1: Node,
-    node2: Node,
+    node1: i32,
+    node2: i32,
     uid: i32,
 
     edgetype: EdgeType,
@@ -30,13 +32,14 @@ struct Circuit {
 }
 
 impl Circuit {
-    fn init_node(&mut self) {
-        let last_name: i32 = match self.nodes.is_empty() {
+    fn init_node(&mut self, hr_name:char) {
+        let last_id: i32 = match self.nodes.is_empty() {
             true => -1,
-            false => self.nodes.last().unwrap().name,
+            false => self.nodes.last().unwrap().id,
         };
         let new_node = Node {
-            name: last_name + 1,
+            id: last_id + 1,
+            hr_name: hr_name,
             voltage: 0.,
         };
         self.nodes.push(new_node);
@@ -51,9 +54,9 @@ fn main() {
         grounded_node: None,
     };
 
-    a.init_node();
-    a.init_node();
-    a.init_node();
+    a.init_node('a');
+    a.init_node('b');
+    a.init_node('c');
 
-    println!("{}", a.nodes.get(2).unwrap().name);
+    println!("{}", a.nodes.get(2).unwrap().hr_name);
 }
